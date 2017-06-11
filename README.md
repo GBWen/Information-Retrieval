@@ -33,21 +33,19 @@ AND OR NOT 为关键词
 ### 测试
  maxDocNum = 20
 ```
-System.out.println(vsm.Query("the", intertedIndex, maxDocNum));
-System.out.println(vsm.Query("the AND BAHIA", intertedIndex, maxDocNum));
-System.out.println(vsm.Query("the AND NOT BAHIA", intertedIndex, maxDocNum));
-System.out.println(vsm.Query("the OR mln", intertedIndex, maxDocNum));
+System.out.println(vsm.Query("per", intertedIndex, maxDocNum));
+System.out.println(vsm.Query("per AND bAHIA", intertedIndex, maxDocNum));
+System.out.println(vsm.Query("per AND NOT BAHIA", intertedIndex, maxDocNum));
+System.out.println(vsm.Query("per OR mln", intertedIndex, maxDocNum));
 System.out.println(vsm.Query("\" has the right to \"", intertedIndex, maxDocNum));
-System.out.println(vsm.Query("\" has the \"", intertedIndex, maxDocNum));
 ```
 输出:
 
 ```
-[12, 10, 1]
+[1, 10, 11, 13]
 [1]
-[12, 10]
-[12, 10, 1, 11, 13, 14]
-[10]
+[10, 11, 13]
+[1, 10, 11, 12, 13, 14]
 [10]
 ```
 

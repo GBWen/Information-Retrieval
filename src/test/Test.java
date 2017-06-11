@@ -19,26 +19,16 @@ public class Test
 //        System.out.println(intertedIndex.get("the"));
 //        System.out.println(intertedIndex.get("per"));
 
-//        Tfidf tfidf = new Tfidf();
-//        double tf = Tfidf.getTfidf(intertedIndex, "the", 10, index.getDocN());
-//        System.out.println(tf);
-
         VSM vsm = new VSM();
         vsm.CreateSVM(intertedIndex, maxDocNum);
         System.out.println(vsm.Query("per", intertedIndex, maxDocNum));
-//        System.out.println(vsm.Query("per AND bAHIA", intertedIndex, maxDocNum));
-//        System.out.println(vsm.Query("the AND NOT BAHIA", intertedIndex, maxDocNum));
-//        System.out.println(vsm.Query("the OR mln", intertedIndex, maxDocNum));
-//        System.out.println(vsm.Query("\" has the right to \"", intertedIndex, maxDocNum));
-//        System.out.println(vsm.Query("\" has the \"", intertedIndex, maxDocNum));
+        System.out.println(vsm.Query("per AND bAHIA", intertedIndex, maxDocNum));
+        System.out.println(vsm.Query("per AND NOT BAHIA", intertedIndex, maxDocNum));
+        System.out.println(vsm.Query("per OR mln", intertedIndex, maxDocNum));
+        System.out.println(vsm.Query("\" has the right to \"", intertedIndex, maxDocNum));
 
-//        System.out.println(Utils.SpellingCorrection("weeek"));
-//        System.out.println(Utils.SpellingCorrection("avalable"));
-
-//        System.out.println(vsm.Query("bbAHIA", intertedIndex, maxDocNum));
-
+        System.out.println(vsm.Query("bbAHIA", intertedIndex, maxDocNum));
         System.out.println(vsm.TopKQuery("per", intertedIndex, maxDocNum, 2));
-
 
     }
 }

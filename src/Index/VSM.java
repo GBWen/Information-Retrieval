@@ -115,32 +115,39 @@ public class VSM
             else
             {
                 arrs[i] = Utils.Normalization(arrs[i]);
-                if (!index.containsKey(arrs[i]))
+                if (!Utils.stopWords.contains(arrs[i]))
                 {
-                    System.out.println("Can't find " + arrs[i]);
-                    String strCorrect = Utils.SpellingCorrection(arrs[i]);
-                    System.out.println("Spelling corrected to " + strCorrect);
-                    arrs[i] = strCorrect;
-                }
-                wordList.add(arrs[i]);
-                ArrayList<word> list = index.get(arrs[i]);
-                boolean[] tmpFlag = new boolean[N];
-                for (int j = 0; j < N; j++)
-                    tmpFlag[j] = false;
-                for (int j = 0; j < list.size(); j++)
-                {
-                    tmpFlag[list.get(j).getDocNum()] = true;
-                }
-                i++;
-                if (Condition == 0)
-                {
+                    if (!index.containsKey(arrs[i]))
+                    {
+                        System.out.println("Can't find " + arrs[i]);
+                        String strCorrect = Utils.SpellingCorrection(arrs[i]);
+                        System.out.println("Spelling corrected to " + strCorrect);
+                        arrs[i] = strCorrect;
+                    }
+                    wordList.add(arrs[i]);
+                    ArrayList<word> list = index.get(arrs[i]);
+                    boolean[] tmpFlag = new boolean[N];
                     for (int j = 0; j < N; j++)
-                        flag[j] = flag[j] & tmpFlag[j];
+                        tmpFlag[j] = false;
+                    for (int j = 0; j < list.size(); j++)
+                    {
+                        tmpFlag[list.get(j).getDocNum()] = true;
+                    }
+                    i++;
+                    if (Condition == 0)
+                    {
+                        for (int j = 0; j < N; j++)
+                            flag[j] = flag[j] & tmpFlag[j];
+                    }
+                    else
+                    {
+                        for (int j = 0; j < N; j++)
+                            flag[j] = flag[j] | tmpFlag[j];
+                    }
                 }
                 else
                 {
-                    for (int j = 0; j < N; j++)
-                        flag[j] = flag[j] | tmpFlag[j];
+                    i++;
                 }
             }
         }
