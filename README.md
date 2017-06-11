@@ -9,6 +9,7 @@ IntertedIndex index = new IntertedIndex();
 Map<String, ArrayList<word>> intertedIndex = index.CreateIndex(maxDocNum);
 ```
 
+
 ## 向量空间
 VSM.java
 建立向量空间模型
@@ -40,9 +41,31 @@ System.out.println(vsm.Query("\" has the right to \"", intertedIndex, maxDocNum)
 System.out.println(vsm.Query("\" has the \"", intertedIndex, maxDocNum));
 ```
 输出:
+
+```
 [12, 10, 1]
 [1]
 [12, 10]
 [12, 10, 1, 11, 13, 14]
 [10]
 [10]
+```
+
+## 6.11更新
+
+### 倒排索引
+加入词条化, 去除停用词, 词项归一化
+
+### 查询
+支持拼写矫正, 准确的TopK查询
+#### 拼写矫正
+
+```
+System.out.println(vsm.Query("bbAHIA", intertedIndex, maxDocNum));
+```
+输出:
+```
+Can't find bbahia　
+Spelling corrected to bahia　
+[1]
+```

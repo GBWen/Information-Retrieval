@@ -50,6 +50,16 @@ public class VSM
         return sum3 / (Math.sqrt(sum1) * Math.sqrt(sum2));
     }
 
+    public ArrayList<Integer> TopKQuery(String str,  Map<String, ArrayList<word>> index, int N, int K)
+    {
+        ArrayList<Integer> allList = new ArrayList<Integer>();
+        ArrayList<Integer> topKList = new ArrayList<Integer>(K);
+        allList = Query(str, index, N);
+        for (int i=0;i<K;i++)
+            topKList.add(allList.get(i));
+        return topKList;
+    }
+
     public ArrayList<Integer> Query(String str,  Map<String, ArrayList<word>> index, int N)
     {
         ArrayList<String> wordList = new ArrayList<String>();
@@ -66,6 +76,7 @@ public class VSM
             if (arrs[i].equals("NOT"))
             {
                 i++;
+                arrs[i] = Utils.Normalization(arrs[i]);
                 if (index.containsKey(arrs[i]))
                 {
                     ArrayList<word> list = index.get(arrs[i]);
@@ -103,28 +114,33 @@ public class VSM
             }
             else
             {
-                if (index.containsKey(arrs[i]))
+                arrs[i] = Utils.Normalization(arrs[i]);
+                if (!index.containsKey(arrs[i]))
                 {
-                    wordList.add(arrs[i]);
-                    ArrayList<word> list = index.get(arrs[i]);
-                    boolean[] tmpFlag = new boolean[N];
+                    System.out.println("Can't find " + arrs[i]);
+                    String strCorrect = Utils.SpellingCorrection(arrs[i]);
+                    System.out.println("Spelling corrected to " + strCorrect);
+                    arrs[i] = strCorrect;
+                }
+                wordList.add(arrs[i]);
+                ArrayList<word> list = index.get(arrs[i]);
+                boolean[] tmpFlag = new boolean[N];
+                for (int j = 0; j < N; j++)
+                    tmpFlag[j] = false;
+                for (int j = 0; j < list.size(); j++)
+                {
+                    tmpFlag[list.get(j).getDocNum()] = true;
+                }
+                i++;
+                if (Condition == 0)
+                {
                     for (int j = 0; j < N; j++)
-                        tmpFlag[j] = false;
-                    for (int j = 0; j < list.size(); j++)
-                    {
-                        tmpFlag[list.get(j).getDocNum()] = true;
-                    }
-                    i++;
-                    if (Condition == 0)
-                    {
-                        for (int j = 0; j < N; j++)
-                            flag[j] = flag[j] & tmpFlag[j];
-                    }
-                    else
-                    {
-                        for (int j = 0; j < N; j++)
-                            flag[j] = flag[j] | tmpFlag[j];
-                    }
+                        flag[j] = flag[j] & tmpFlag[j];
+                }
+                else
+                {
+                    for (int j = 0; j < N; j++)
+                        flag[j] = flag[j] | tmpFlag[j];
                 }
             }
         }
@@ -136,9 +152,6 @@ public class VSM
             if (!file.exists())
                 flag[j] = false;
         }
-
-//        for (int p=0;p<N;p++)
-//            System.out.println(flag[p]);
 
         i = 0;
         // 左" : 0
@@ -241,7 +254,6 @@ public class VSM
                 }
             }
         }
-
         return ansList;
     }
 }

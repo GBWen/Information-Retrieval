@@ -4,7 +4,6 @@ import Index.*;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.function.BooleanSupplier;
 
 /**
  * Created by gbw on 17-6-8.
@@ -15,6 +14,7 @@ public class Test
     {
         int maxDocNum = 20;
         IntertedIndex index = new IntertedIndex();
+        Utils.getStopWords("/home/gbw/IdeaProjects/Information_Retrievalool/stopwords.txt");
         Map<String, ArrayList<word>> intertedIndex = index.CreateIndex(maxDocNum);
 //        System.out.println(intertedIndex.get("the"));
 //        System.out.println(intertedIndex.get("per"));
@@ -25,12 +25,20 @@ public class Test
 
         VSM vsm = new VSM();
         vsm.CreateSVM(intertedIndex, maxDocNum);
+        System.out.println(vsm.Query("per", intertedIndex, maxDocNum));
+//        System.out.println(vsm.Query("per AND bAHIA", intertedIndex, maxDocNum));
+//        System.out.println(vsm.Query("the AND NOT BAHIA", intertedIndex, maxDocNum));
+//        System.out.println(vsm.Query("the OR mln", intertedIndex, maxDocNum));
+//        System.out.println(vsm.Query("\" has the right to \"", intertedIndex, maxDocNum));
+//        System.out.println(vsm.Query("\" has the \"", intertedIndex, maxDocNum));
 
-        System.out.println(vsm.Query("the", intertedIndex, maxDocNum));
-        System.out.println(vsm.Query("the AND BAHIA", intertedIndex, maxDocNum));
-        System.out.println(vsm.Query("the AND NOT BAHIA", intertedIndex, maxDocNum));
-        System.out.println(vsm.Query("the OR mln", intertedIndex, maxDocNum));
-        System.out.println(vsm.Query("\" has the right to \"", intertedIndex, maxDocNum));
-        System.out.println(vsm.Query("\" has the \"", intertedIndex, maxDocNum));
+//        System.out.println(Utils.SpellingCorrection("weeek"));
+//        System.out.println(Utils.SpellingCorrection("avalable"));
+
+//        System.out.println(vsm.Query("bbAHIA", intertedIndex, maxDocNum));
+
+        System.out.println(vsm.TopKQuery("per", intertedIndex, maxDocNum, 2));
+
+
     }
 }

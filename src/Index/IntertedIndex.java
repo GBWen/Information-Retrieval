@@ -12,6 +12,7 @@ import java.util.Map;
 public class IntertedIndex
 {
     private static int docN = 0;
+
     public Map<String, ArrayList<word>> CreateIndex(int maxDocNum)
     {
         Map<String, ArrayList<word>> index = new HashMap<>();
@@ -35,8 +36,9 @@ public class IntertedIndex
                         int pos = 0;
                         for (int j=0;j<arrs.length;j++)
                         {
-                            if (!arrs[j].equals(" ") && arrs[j].length() > 0)
+                            if (!arrs[j].equals(" ") && arrs[j].length() > 0 && !Utils.stopWords.contains(arrs[j]))
                             {
+                                arrs[j] = Utils.Normalization(arrs[j]);
                                 pos ++;
                                 if (!index.containsKey(arrs[j]))
                                 {
